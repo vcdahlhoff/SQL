@@ -1,0 +1,33 @@
+--Create a store database
+
+CREATE TABLE HardwareStore (id INTEGER PRIMARY KEY, brand TEXT, category TEXT, name TEXT, price NUMERIC);
+INSERT INTO HardwareStore VALUES (1, "GE", "Appliance", "French Door Refrigerator with Ice Maker", 1599.00);
+INSERT INTO HardwareStore VALUES (2, "Samsung", "Appliance", "French Door Refrigerator with Ice Maker", 1799.00);
+INSERT INTO HardwareStore VALUES (3, "allen+roth", "Bathroom", "Lancashire 36-in Chambray Blue Single Sink Vanity", 649.00);
+INSERT INTO HardwareStore VALUES (4, "Style Selections", "Bathroom", "Dolton 24-in Natural Oak Single Sink Vanity", 279.00);
+INSERT INTO HardwareStore VALUES (5, "DreamLine", "Bathroom", "Sliding Shower Door", 729.00);
+INSERT INTO HardwareStore VALUES (6, "KOHLER", "Bathroom", "WaterSense Toilet", 229.00);
+INSERT INTO HardwareStore VALUES (7, "Gardener's Blue Ribbon", "Garden Decor", "Green Garden Trellis", 14.98);
+INSERT INTO HardwareStore VALUES (8, "Red River Commodities", "Garden Decor", "Wild Bird Blend Bird Seed", 15.48);
+INSERT INTO HardwareStore VALUES (9, "Red River Commodities", "Garden Decor", "Welcome Bird Blend Bird Seed", 9.78);
+INSERT INTO HardwareStore VALUES (10, "StyleSelections", "Garden Decor", "Acrylic Window Bird Feeder", 15.98);
+INSERT INTO HardwareStore VALUES (11, "GE", "French Door Refrigerator", "French Door Refrigerator with Ice Maker", 1599.00);
+INSERT INTO HardwareStore VALUES (12, "GE", "French Door Refrigerator", "French Door Refrigerator with Ice Maker", 1599.00);
+INSERT INTO HardwareStore VALUES (13, "allen+roth", "Drawer Pulls", "Matte Black Arch Handle Drawer Pulls", 0.98);
+INSERT INTO HardwareStore VALUES (14, "Brainerd", "Drawer Pulls", "Rectangular Bar Drawer Pulls", 3.98);
+INSERT INTO HardwareStore VALUES (15, "Brainerd", "Drawer Pulls", "Matte Black Oval Bar Drawer Pulls", 32.18);
+
+--display the database ordered by price
+SELECT * FROM HardwareStore 
+ORDER BY price asc;
+
+--what is the avg price of items in the Bathroom category?
+SELECT AVG(price) "avg bathroom item price" 
+FROM HardwareStore 
+where category='Bathroom';
+
+--what are the 5 most expensive items?
+SELECT name, price
+FROM HardwareStore
+order by price asc
+limit 5;
