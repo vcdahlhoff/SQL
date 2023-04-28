@@ -1,5 +1,5 @@
 --Customer & Order Analytics Project
-#In this SQL I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
+--In this SQL I'm querying a database with multiple tables in it to quantify statistics about customer and order data. 
 
 --1. How many orders were placed in January
 SELECT count(orderID) FROM BIT_DB.JanSales;
@@ -52,3 +52,76 @@ WHERE Feb.Quantity > 2
 AND length(order_id) = 6
 AND order_id <> 'Order ID';
 --- 278 customers ordered more than 2 products at a time in February, and they spent on average $13.83
+
+-------------------------------------------
+
+--In the next SQL I was testing advanced data filtering techniques one can use.
+
+SELECT orderdate
+FROM BIT_DB.FebSales
+WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00';
+SELECT location
+FROM BIT_DB.FebSales 
+WHERE orderdate = '02/18/19 01:35';
+SELECT sum(quantity)
+FROM BIT_DB.FebSales 
+WHERE orderdate like '02/18/19%';
+SELECT orderdate from BIT_DB.FebSales;
+SELECT distinct Product
+FROM BIT_DB.FebSales
+WHERE Product like '%Batteries%';
+SELECT distinct Product, Price
+FROM BIT_DB.FebSales 
+WHERE Price like '%.99';
+
+--8. List all the products sold in Los Angeles in February, and include how many of each were sold.
+SELECT Product, sum(Quantity) 
+FROM BIT_DB.FebSales
+WHERE location LIKE '%Los Angeles%'
+GROUP BY Product;
+
+-------------------------------------------
+
+--In the next SQL I did some more advanced customer and order analytics
+
+--9. Which locations in New York received at least 3 orders in January, and how many orders did they each receive? (Hint: use HAVING)
+SELECT * FROM BIT_DB.JanSales;
+SELECT distinct location, count(orderID)
+FROM BIT_DB.JanSales
+WHERE location LIKE '%NY%'
+GROUP BY location
+HAVING COUNT(orderID) > 2;
+
+--10. How many of each type of headphone were sold in February?
+SELECT * FROM BIT_DB.FebSales;
+SELECT sum(Quantity) as Quantity, Product
+FROM BIT_DB.FebSales
+WHERE Product LIKE '%Headphones%'
+GROUP BY Product;
+--- 1,013 Apple Airpods, 844 Bose Sound Sport, and 1,282 Wired Headphones
+
+--11. What was the average amount spent per account in February?
+SELECT ROUND(sum(price*quantity)/count(C.acctnum), 2)
+FROM BIT_DB.FebSales Feb
+JOIN BIT_DB.customers C
+ON Feb.orderID = C.order_id
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID';
+--- Averaged $190 per account
+ 
+--12. What was the average quantity of products purchased per account in February?
+SELECT sum(quantity)/count(C.acctnum)
+FROM BIT_DB.FebSales Feb
+JOIN BIT_DB.customers C
+ON Feb.orderID = C.order_id
+WHERE length(orderid) = 6 
+AND orderid <> 'Order ID';
+--- Averaged 1 product purchased per account
+
+--13. Which product brought in the most revenue in January and how much revenue did it bring in total?
+SELECT Product, sum(quantity*price)
+FROM BIT_DB.JanSales
+GROUP BY Product
+ORDER BY sum(quantity*price) desc
+LIMIT 1;
+--- The Macbook Pro Laptop brought in the most revenue in January at $399,500
