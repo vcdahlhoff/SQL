@@ -1,0 +1,40 @@
+--SQL code nswering questions about a database that's holding Netflix data
+SELECT
+people.show_id,
+people.director,
+titles.title,
+titles.type FROM "CharlotteChaze/BreakIntoTech"."netflix_people" people
+LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ON people.show_id = titles.show_id;
+
+--How many movie titles are there in the database?
+select count(*)
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type='Movie';
+--6,131 Movies
+
+--When was the most recent batch of tv shows and/or movies added to the database?
+SELECT max(date(date_added))
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info";
+--2021-09-25
+
+--List all the movies and tvshows in alphabetical order
+SELECT title
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+ORDER BY title asc;
+
+--Who was the Director for the movie Bright Star?
+SELECT director
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+RIGHT JOIN "CharlotteChaze/BreakIntoTech"."netflix_people" people
+ON titles.show_id = people.show_id
+WHERE titles.title = 'Bright Star';
+--Jane Campion
+
+--What is the oldest movie in the database and what year was it made?
+SELECT title, release_year
+FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+WHERE type = 'Movie'
+ORDER BY release_year asc
+LIMIT 1;
+--Prelude to War, released in 1942
