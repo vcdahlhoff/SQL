@@ -1,4 +1,5 @@
-/* Create table about the people and what they do here */
+#In this SQL I made my own table with some small set of “famous people”, then made more tables about things they do and joined those to create nice human readable lists.
+
 CREATE TABLE actors (id INTEGER PRIMARY KEY,
     full_name TEXT,
     famous_roles TEXT,
